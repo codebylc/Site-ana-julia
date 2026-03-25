@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Ana Julia ❤️</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+    /* Efeito de Brilho que pulsa */
+    .glow-heart {
+        filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.6));
+        animation: heartbeat-glow 2s infinite;
+        /* Máscara de Coração */
+        clip-path: url(#heart-path);
+        object-fit: cover;
+    }
+
+    @keyframes heartbeat-glow {
+        0%, 100% { filter: drop-shadow(0 0 5px rgba(239, 68, 68, 0.4)); transform: scale(1); }
+        50% { filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.8)); transform: scale(1.05); }
+    }
+
+    .romantic-font { font-family: 'Dancing Script', cursive; }
+</style>
+
+<svg width="0" height="0">
+    <defs>
+        <clipPath id="heart-path" clipPathUnits="objectBoundingBox">
+            <path d="M0.5,0.2 C0.3,0 0,0.1 0,0.4 C0,0.7 0.3,0.9 0.5,1 C0.7,0.9 1,0.7 1,0.4 C1,0.1 0.7,0 0.5,0.2"></path>
+        </clipPath>
+    </defs>
+</svg>
+
+<header class="py-12 text-center px-4">
+    <div class="flex flex-wrap justify-center gap-6 mb-8">
+        <img src="{{ url_for('static', filename='foto1.jpg.jpeg') }}" 
+             class="w-32 h-32 md:w-44 md:h-44 glow-heart bg-red-100">
+        
+        <img src="{{ url_for('static', filename='foto2.jpg.jpeg') }}" 
+             class="w-40 h-40 md:w-56 md:h-56 glow-heart bg-red-100 -mt-4">
+        
+        <img src="{{ url_for('static', filename='foto3.jpg.jpeg') }}" 
+             class="w-32 h-32 md:w-44 md:h-44 glow-heart bg-red-100">
+    </div>
+    <div class="max-w-md mx-auto my-8 px-4">
+    <div class="shadow-2xl rounded-2xl overflow-hidden border-2 border-red-100">
+        <iframe style="border-radius:12px" 
+                src="https://open.spotify.com/embed/track/2o2xhyri4aJUtgMGkf5P0J?utm_source=generator"
+                width="100%" height="152" frameBorder="0" allowfullscreen="" 
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                loading="lazy">
+        </iframe>
+    </div>
+    <p class="text-xs text-red-300 mt-2 italic">Dê o play para ler nossos motivos...</p>
+</div>
+
+    <h1 class="text-5xl md:text-7xl romantic-font text-red-600 mb-2">Ana Julia</h1>
+    <p class="text-xl text-red-400 italic mb-4">1000 motivos pelos quais eu te amo</p>
+    <div class="text-3xl">❤️</div>
+</header>
+
+    <div class="max-w-2xl mx-auto px-4 text-center mb-12">
+        <button onclick="gerarMotivo()" class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105 active:scale-95">
+            Clique para um motivo aleatório ✨
+        </button>
+        <div id="display-motivo" class="mt-6 p-8 bg-white rounded-2xl shadow-xl italic text-xl text-red-700 min-h-[120px] flex items-center justify-center border-l-8 border-red-500 transition-all duration-500">
+            "Sempre foi você, e sempre será."
+        </div>
+    </div>
+
+    <main class="max-w-5xl mx-auto px-4 pb-20">
+        <h2 class="text-2xl font-semibold mb-8 text-center text-gray-700">A Nossa Lista de Amor...</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {% for motivo in motivos %}
+            <div class="bg-white p-4 rounded-lg shadow-sm border border-pink-100 hover:bg-pink-50 transition-colors">
+                <span class="text-red-400 font-bold mr-2 text-sm">#{{ loop.index }}</span>
+                <span class="text-gray-700">{{ motivo }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+
+    <footer class="text-center py-8 text-gray-400 text-sm">
+        Feito com ❤️ por Você
+    </footer>
+
+    <script id="dados-motivos" type="application/json">
+        {{ motivos|tojson }}
+    </script>
+
+    <script>
+        function gerarMotivo() {
+            try {
+                // Pega os dados da tag script acima
+                const scriptElemento = document.getElementById('dados-motivos');
+                const listaMotivos = JSON.parse(scriptElemento.textContent);
+                
+                // Sorteia um motivo
+                const motivoSorteado = listaMotivos[Math.floor(Math.random() * listaMotivos.length)];
+                
+                // Efeito visual simples antes de trocar o texto
+                const display = document.getElementById('display-motivo');
+                display.style.opacity = 0;
+                
+                setTimeout(() => {
+                    display.innerText = motivoSorteado;
+                    display.style.opacity = 1;
+                }, 200);
+            } catch (e) {
+                console.error("Erro ao carregar motivos:", e);
+                document.getElementById('display-motivo').innerText = "Eu te amo mais que tudo!";
+            }
+        }
+    </script>
+</body>
+</html>
+<div class="flex justify-center mb-6">
+    <img src="{{ url_for('static', filename='foto1.jpg') }}" 
+         alt="Ana Julia" 
+         class="w-48 h-48 rounded-full border-4 border-red-300 shadow-xl object-cover hover:scale-105 transition duration-500">
+</div>
